@@ -1,0 +1,49 @@
+[tool.poetry]
+name = "text-objects-extraction"
+version = "0.1.0"
+description = ""
+authors = ["Vladislav Gerasimov <vegerasimov@edu.hse.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.109.2"
+torch = "^2.2.1"
+dvc = "^3.47.0"
+uvicorn = {extras = ["standart"], version = "^0.27.1"}
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.2.0"
+isort = "^5.13.2"
+flake8-pyproject = "^1.2.3"
+pyright = "^1.1.351"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+
+[tool.flake8]
+per-file-ignores = [
+    '__init__.py:F401'
+]
+extend-ignore = ['E203']
+exclude = [
+    '.git',
+    '__pycache__',
+    '_version.py'
+]
+max-line-length = 120
+max-complexity = 10
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+typeCheckingMode = "strict"
+reportMissingTypeStubs = false
