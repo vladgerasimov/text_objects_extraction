@@ -3,8 +3,7 @@ from dataclasses import dataclass
 
 import spacy
 
-from src.core.models import ExtractedObjectsDict, PartOfSpeech
-from src.core.settings import PosExtractorSettings
+from src.core.models import ExtractedObjectsDict, LanguageDependency, PartOfSpeech
 from src.extractor.base import BaseObjectsExtractor
 
 
@@ -20,10 +19,23 @@ class PosExtractor(BaseObjectsExtractor):
 
     def extract(self, text: str) -> ExtractedObjectsDict:
         objects: dict[str, list[str]] = defaultdict(list)
-        doc = self.nlp(text)
+        doc = self.nlp(text.lower())
         nouns = [
-            Token(index=index, text=token.text) for index, token in enumerate(doc) if token.pos_ == PartOfSpeech.noun
+            Token(index=index, text=token.text)
+            for index, token in enumerate(doc)
+            if token.pos_ in {PartOfSpeech.noun, PartOfSpeech.proper_noun}
         ]
+        if not nouns:
+            return {"objects": {}}
+
+        nouns_without_adjectives = [
+            token.text
+            for token in doc
+            if token.pos_ == PartOfSpeech.noun
+            and LanguageDependency.adjectival_modifier not in {child.dep_ for child in token.children}
+        ]
+        for noun in nouns_without_adjectives:
+            objects[noun] = []
         adjectives = [
             Token(index=index, text=token.text)
             for index, token in enumerate(doc)
@@ -44,4 +56,4 @@ class PosExtractor(BaseObjectsExtractor):
         for adjective, noun in adj_noun_mapping.items():
             objects[noun].append(adjective)
 
-        return {"objects": objects}
+        return {"objects": dict(objects)}

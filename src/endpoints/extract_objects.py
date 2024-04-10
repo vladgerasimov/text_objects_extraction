@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Body, Depends
 
-from src.dependencies.extractors import get_pos_extractor
 from src.core.models import ExtractObjectsResponse
 from src.core.settings import AppSettings
+from src.dependencies.extractors import get_pos_extractor
 from src.extractor.base import BaseObjectsExtractor
 
 router = APIRouter(tags=["extract"])
