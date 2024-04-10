@@ -1,0 +1,13 @@
+version: "3.3"
+
+services:
+  fastapi:
+#    env_file:
+#      - .env
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
