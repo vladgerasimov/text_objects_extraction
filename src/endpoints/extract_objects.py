@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Body, Depends
 
 from src.core.models import ExtractObjectsResponse
-from src.core.settings import AppSettings
+from src.core.settings import CONFIGS_DIR, AppSettings
 from src.dependencies import get_pos_extractor
 from src.extractor.base import BaseObjectsExtractor
 
 router = APIRouter(tags=["extract"])
-app_settings = AppSettings.from_yaml("configs/app_settings.yaml")
+app_settings = AppSettings.from_yaml(config_path=CONFIGS_DIR / "app_settings.yaml", common_settings_path="")
 
 
 @router.post("/extract")
