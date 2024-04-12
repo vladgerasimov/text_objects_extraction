@@ -13,6 +13,11 @@ class ExtractObjectsResponse(BaseModel):
     input_text_truncated: bool = False
 
 
+class ExtractObjectsResponseDict(TypedDict):
+    result: ExtractedObjectsDict
+    input_text_truncated: bool
+
+
 class PartOfSpeech(StrEnum):
     noun = "NOUN"
     proper_noun = "PROPN"

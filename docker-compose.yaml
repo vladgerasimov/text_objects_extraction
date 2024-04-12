@@ -11,3 +11,14 @@ services:
       - "8000:8000"
     volumes:
       - ./src:/app/src
+  frontend:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: ["python", "-m", "streamlit", "run", "src/frontend/streamlit_app.py", "--server.port", "8502"]
+    ports:
+      - "8502:8502"
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - fastapi
