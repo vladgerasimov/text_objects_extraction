@@ -27,3 +27,16 @@ class PartOfSpeech(StrEnum):
 
 class LanguageDependency(StrEnum):
     adjectival_modifier = "amod"
+
+
+class LLMResponseMessageDict(TypedDict):
+    role: str
+    content: str
+
+
+class LLMResponseChoiceDict(TypedDict):
+    message: LLMResponseMessageDict
+
+
+class LLMResponseJSON(TypedDict):
+    choices: list[LLMResponseChoiceDict]
