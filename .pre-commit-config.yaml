@@ -1,0 +1,44 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    -   id: check-yaml
+    -   id: detect-private-key
+    -   id: check-added-large-files
+-   repo: local
+    hooks:
+    -   id: black
+        name: black
+        entry: black
+        language: system
+        files: src
+        args: ['--target-version=py312']
+-   repo: local
+    hooks:
+      -   id: flake8
+          name: flake8
+          entry: flake8
+          language: system
+          files: src
+          args: [
+              '--max-line-length=120',
+              '--max-complexity=10',
+              '--per-file-ignores=__init__.py:F401,main.py:C901',
+              '--extend-ignore=E203',
+              '--exclude=.git,__pycache__,_version.py',
+          ]
+-   repo: local
+    hooks:
+      -   id: isort
+          name: isort
+          entry: isort
+          language: system
+          files: src
+          args: ['--profile=black']
+-  repo: local
+   hooks:
+       - id: pyright
+         name: pyright
+         entry: pyright
+         language: system
+         types: [ python ]
