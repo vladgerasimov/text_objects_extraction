@@ -1,6 +1,8 @@
 from pathlib import Path
+from typing import Any, Iterable
 
 import yaml
+from pydantic import SecretStr
 from pydantic_settings import BaseSettings
 
 ROOT_DIR = Path.cwd()
@@ -44,3 +46,46 @@ class ExtractorClientSettings(AppSettings):
         with open(common_settings_path) as file:
             config.update(yaml.safe_load(file))
         return cls(**config)
+
+
+class LLMExtractorSettings(BaseSettings):
+    openai_key: SecretStr
+    prompt_task: str = ""
+    prompt_example: str = ""
+    multi_text_prompt_example: str = ""
+    prompt_input: str = ""
+    multi_text_input: str = ""
+
+    model: str = "gpt-3.5-turbo"
+
+    openai_url: str = "https://api.openai.com"
+    openai_handler: str = "/v1/chat/completions"
+
+    multi_request_batch_size: int = 16
+    max_retries: int = 10
+
+    @property
+    def openai_endpoint(self) -> str:
+        return self.openai_url + self.openai_handler
+
+    def make_prompt(self, input_text: str) -> str:
+        return self.prompt_task + self.prompt_example + self.prompt_input.format(input_text=input_text)
+
+    def make_multi_texts_prompt(self, input_texts: Iterable[str]) -> str:
+        return (
+            self.prompt_task
+            + self.multi_text_prompt_example
+            + self.multi_text_input.format(input_texts=[f"<{input_text}>" for input_text in input_texts])
+        )
+
+    @classmethod
+    def from_yaml(cls, config_path: str | Path, **kwargs: Any) -> "LLMExtractorSettings":
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
+        return cls(**config, **kwargs)
+
+
+if __name__ == "__main__":
+    config_path = "/Users/user/hse/text_objects_extraction/configs/llm_extractor_settings.yaml"
+    config = LLMExtractorSettings.from_yaml(config_path)
+    print(config)

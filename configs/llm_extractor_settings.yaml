@@ -1,0 +1,57 @@
+prompt_task: >
+  Your task is to extract objects with their descriptions from text or texts in <>.
+  Let's define some tokens what I will use later:
+  
+  <text> - input text, each text will be provided in <>
+  <texts> - array of input texts, it will be provided in <>
+  
+  <result> - your result
+  
+  Write result in valid JSON format without extra information, as I will use json.loads(<result>).
+  Please make sure there's no extra commas or quotes that might lead to error while json.loads(<result>).
+  Also make sure that structure of JSON format is valid and correct, remember, I'll run json.loads(<result>) 
+  on your answer.
+prompt_example: >
+  Example:
+  
+  <text> = <White car drives on dirty road>
+  <result> = {
+      "objects": {
+          "car": ["white"],
+          "road": ["dirty"]
+      }
+  }
+  Don't include "<result> = " in response, include only JSON
+multi_text_prompt_example: >
+  Example:
+
+    <texts> = <White car drives on dirty road>, <Man in blue jeans stands near tall tree>
+    <result> = {
+        "White car drives on dirty road":
+          "objects": {
+              "car": ["white"],
+              "road": ["dirty"]
+          },
+        "Man in blue jeans stands near tall tree":
+          "objects": {
+              "man": [],
+              "jeans": ["blue"],
+              "tree": ["tall"]
+          }
+    }
+  Don't include "<result> = " in response, include only JSON
+prompt_input: >
+  Here is input text that you will work with:
+  
+  <text> = <{input_text}>
+
+multi_text_input: >
+  Here is input texts that you will work with:
+
+    <texts> = {input_texts}
+  
+  Don't forget to use input texts as keys of result dict.
+
+model: gpt-3.5-turbo
+multi_request_batch_size: 32
+max_retries: 10
