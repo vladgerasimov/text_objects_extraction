@@ -1,4 +1,4 @@
-from enum import StrEnum
+from enum import StrEnum, auto
 from typing import TypedDict
 
 from pydantic import BaseModel
@@ -40,3 +40,8 @@ class LLMResponseChoiceDict(TypedDict):
 
 class LLMResponseJSON(TypedDict):
     choices: list[LLMResponseChoiceDict]
+
+
+class ProcessAttentions(StrEnum):
+    get_first = auto()
+    get_all_mean = auto()

@@ -5,6 +5,8 @@ import yaml
 from pydantic import SecretStr
 from pydantic_settings import BaseSettings
 
+from src.core.models import ProcessAttentions
+
 ROOT_DIR = Path.cwd()
 CONFIGS_DIR = ROOT_DIR / "configs"
 
@@ -83,6 +85,18 @@ class LLMExtractorSettings(BaseSettings):
         with open(config_path) as file:
             config = yaml.safe_load(file)
         return cls(**config, **kwargs)
+
+
+class BertExtractorSettings(BaseSettings):
+    pretrained_model_name: str = "google-bert/bert-base-uncased"
+    process_attentions: ProcessAttentions
+    n_blocks_to_average: int = 12
+
+    @classmethod
+    def from_yaml(cls, config_path: str | Path) -> "BertExtractorSettings":
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
+        return cls(**config)
 
 
 if __name__ == "__main__":
