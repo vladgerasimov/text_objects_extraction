@@ -8,8 +8,8 @@ from transformers.models.bert.tokenization_bert_fast import BertTokenizerFast
 
 from src.core.models import ExtractedObjectsDict, ProcessAttentions
 from src.core.settings import ROOT_DIR, BertExtractorSettings
-from src.extractor import PosExtractor
 from src.extractor.base import BaseObjectsExtractor
+from src.extractor.pos_extractor import PosExtractor
 
 Attentions_T: TypeAlias = tuple[torch.Tensor, ...]
 
