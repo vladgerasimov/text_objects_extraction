@@ -19,7 +19,7 @@ def rouge_like_metric(pred: dict[str, list[str]], target: dict[str, list[str]], 
     else:
         metric = len(extracted) / len(target_pairs)
 
-    return metric
+    return max(metric, 0)
 
 
 def mean_rouge_like_metric(

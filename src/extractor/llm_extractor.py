@@ -16,7 +16,6 @@ from src.extractor.base import BaseObjectsExtractor
 configs_dir = Path(__file__).parent.parent.parent / "configs"
 
 app_settings = AppSettings()
-extractor_settings = LLMExtractorSettings.from_yaml(configs_dir / "llm_extractor_settings.yaml", _env_file=".env")
 
 
 class LLMExtractor(BaseObjectsExtractor):
@@ -149,10 +148,12 @@ class LLMExtractor(BaseObjectsExtractor):
 if __name__ == "__main__":
     import pandas as pd
 
+    extractor_settings = LLMExtractorSettings.from_yaml(configs_dir / "llm_extractor_settings.yaml", _env_file=".env")
     data_dir = Path(__file__).parent.parent.parent / "data"
 
     val_df = pd.read_csv(data_dir / "val.csv")  # pyright: ignore
-    save_path = data_dir / "labels_val.csv"
+    # save_path = data_dir / "labels_val.csv"
+    save_path = data_dir / "labels_val_gpt_4o.csv"
     texts = val_df["text"].tolist()  # pyright: ignore
     logger.info(f"{len(texts)=}")  # pyright: ignore
     logger.info(f"{len(set(texts))=}")  # pyright: ignore

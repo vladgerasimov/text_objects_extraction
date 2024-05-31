@@ -52,6 +52,6 @@ multi_text_input: >
   
   Don't forget to use input texts as keys of result dict.
 
-model: gpt-3.5-turbo
+model: gpt-4o
 multi_request_batch_size: 32
 max_retries: 10
