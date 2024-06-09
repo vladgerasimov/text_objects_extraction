@@ -18,6 +18,8 @@ services:
         reservations:
           memory: 1g
   frontend:
+    env_file:
+      - .env
     build:
       dockerfile: Dockerfile
       context: .

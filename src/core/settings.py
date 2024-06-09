@@ -95,6 +95,17 @@ class LLMExtractorSettings(BaseSettings):
         return cls(**config, **kwargs)
 
 
+class DallESettings(LLMExtractorSettings):
+    openai_handler: str = "/v1/images/generations"
+    model: str = "dall-e-3"
+
+    @classmethod
+    def from_yaml(cls, config_path: str | Path, **kwargs: Any) -> "DallESettings":
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
+        return cls(**config, **kwargs)
+
+
 class BertExtractorSettings(BaseSettings):
     pretrained_model_name: str = "google-bert/bert-base-uncased"
     process_attentions: ProcessAttentions
