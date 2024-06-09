@@ -11,13 +11,11 @@ services:
       - "8000:8000"
     volumes:
       - ./src:/app/src
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-        reservations:
-          memory: 1g
+    storage_opt:
+      size: 1g
   frontend:
+    env_file:
+      - .env
     build:
       dockerfile: Dockerfile
       context: .

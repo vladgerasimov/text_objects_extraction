@@ -1,0 +1,14 @@
+prompt_task: >
+  Generate image based on JSON in <>.
+prompt_example: >
+  Example:  
+  <json> = {
+      "objects": {
+          "car": ["white"],
+          "road": ["dirty"]
+      }
+  }
+prompt_input: >
+  Here is JSON for text generation:
+  <{input_text}>
+model: dall-e-3
