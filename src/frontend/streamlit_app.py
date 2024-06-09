@@ -10,7 +10,8 @@ client = ExtractorClient(config=config)
 
 
 def extract_objects(text: str):
-    st.session_state.extracted_objects = client.extract_objects(text)
+    with st.spinner("Extracting objects from text..."):
+        st.session_state.extracted_objects = client.extract_objects(text)
 
 
 def receive_user_input():
