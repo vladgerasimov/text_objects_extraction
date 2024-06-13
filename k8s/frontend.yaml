@@ -21,6 +21,7 @@ spec:
       containers:
         - name: streamlit-container
           image: vladgerasimov97/hse_registry:latest
+          imagePullPolicy: Always
           command:
             ["python" , "-m", "streamlit", "run", "src/frontend/streamlit_app.py"]
           envFrom:
