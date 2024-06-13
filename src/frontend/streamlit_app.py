@@ -20,7 +20,9 @@ def extract_objects(text: str):
 
 def receive_user_input():
     input_field = st.text_input(label="Enter text", key="input_field")
-    st.button("Extract objects", on_click=extract_objects, args=(input_field,))
+    extract_button = st.button("Extract objects")  # , on_click=extract_objects, args=(input_field,))
+    if extract_button:
+        extract_objects(input_field)
 
 
 def display_extracted_objects():
