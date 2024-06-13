@@ -1,1 +1,2 @@
 text_max_len: 1024
+api_selected_extractor: bert_extractor

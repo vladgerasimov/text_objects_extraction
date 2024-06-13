@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-ingress
+  labels:
+    app: fastapi-app
+  namespace: final-project
+spec:
+  rules:
+  - host: fastapi
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: fastapi
+              port:
+                number: 8000
+  - host: frontend
+    http:
+      paths:
+        - pathType: Prefix
+          path: "/"
+          backend:
+            service:
+              name: streamlit-service
+              port:
+                number: 8501

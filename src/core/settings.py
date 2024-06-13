@@ -1,3 +1,4 @@
+from enum import StrEnum, auto
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -11,11 +12,18 @@ ROOT_DIR = Path.cwd()
 CONFIGS_DIR = ROOT_DIR / "configs"
 
 
+class ExtractorType(StrEnum):
+    pos_extractor = auto()
+    llm_extractor = auto()
+    bert_extractor = auto()
+
+
 class AppSettings(BaseSettings):
     text_max_len: int = 1024
+    api_selected_extractor: ExtractorType = ExtractorType.bert_extractor
 
     @classmethod
-    def from_yaml(cls, config_path: str | Path, common_settings_path: str | Path) -> "AppSettings":
+    def from_yaml(cls, config_path: str | Path, common_settings_path: str | Path = "") -> "AppSettings":
         with open(config_path) as file:
             config = yaml.safe_load(file)
         return cls(**config)
@@ -42,7 +50,7 @@ class ExtractorClientSettings(AppSettings):
         return self.extractor_url + self.extract_objects_handler
 
     @classmethod
-    def from_yaml(cls, config_path: str | Path, common_settings_path: str | Path) -> "ExtractorClientSettings":
+    def from_yaml(cls, config_path: str | Path, common_settings_path: str | Path = "") -> "ExtractorClientSettings":
         with open(config_path) as file:
             config = yaml.safe_load(file)
         with open(common_settings_path) as file:
@@ -82,6 +90,17 @@ class LLMExtractorSettings(BaseSettings):
 
     @classmethod
     def from_yaml(cls, config_path: str | Path, **kwargs: Any) -> "LLMExtractorSettings":
+        with open(config_path) as file:
+            config = yaml.safe_load(file)
+        return cls(**config, **kwargs)
+
+
+class DallESettings(LLMExtractorSettings):
+    openai_handler: str = "/v1/images/generations"
+    model: str = "dall-e-3"
+
+    @classmethod
+    def from_yaml(cls, config_path: str | Path, **kwargs: Any) -> "DallESettings":
         with open(config_path) as file:
             config = yaml.safe_load(file)
         return cls(**config, **kwargs)

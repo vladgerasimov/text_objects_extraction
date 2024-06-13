@@ -1,4 +1,4 @@
-FROM python:3.12
+FROM python:3.12.3
 WORKDIR /app
 
 RUN pip install poetry==1.6.1
